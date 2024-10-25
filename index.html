@@ -49,6 +49,9 @@
     </div>
 
     <script>
+
+        const delay = 5000;
+
         let watchID = null;
         let previousPosition = null;
         let previousTimestamp = null;
@@ -58,6 +61,7 @@
         let timerInterval = null;
 
         function calculateSpeed(position) {
+        setTimeout(() => {
             const currentTimestamp = position.timestamp;
             const currentLatitude = position.coords.latitude;
             const currentLongitude = position.coords.longitude;
@@ -69,10 +73,9 @@
 
             if (previousPosition) {
                 const distance = haversineDistance(previousPosition.coords.latitude, previousPosition.coords.longitude, currentLatitude, currentLongitude);
-
                 const timeElapsed = (currentTimestamp - previousTimestamp) / 1000;
 
-                const minMovementThreshold = 0.01; // Adjusted for better responsiveness
+                const minMovementThreshold = 0.01; // Minimum movement threshold
 
                 if (timeElapsed > 0 && distance > minMovementThreshold) {
                     const speed = (distance / timeElapsed);
@@ -84,7 +87,9 @@
 
             previousPosition = position;
             previousTimestamp = currentTimestamp;
-        }
+        }, delay);
+    }
+
 
         function haversineDistance(lat1, lon1, lat2, lon2) {
             const R = 6371e3; // Earth radius in meters
